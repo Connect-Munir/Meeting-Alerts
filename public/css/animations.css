@@ -1,0 +1,337 @@
+/* ==================== PAGE LOAD ANIMATIONS ==================== */
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+}
+
+/* ==================== LIVE MEETING EFFECTS ==================== */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(0, 217, 255, 0.3), 0 0 24px rgba(0, 255, 65, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5), 0 0 32px rgba(0, 255, 65, 0.25);
+  }
+}
+
+:root[data-theme="light"] .meeting-card.live {
+  animation: pulse-glow-light 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-light {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(30, 64, 175, 0.25), 0 0 24px rgba(5, 150, 105, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(30, 64, 175, 0.4), 0 0 32px rgba(5, 150, 105, 0.2);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ==================== THEME TOGGLE FLICKER ==================== */
+@keyframes crt-flicker {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.97;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.96;
+  }
+  60% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.98;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+body.theme-switching {
+  animation: crt-flicker 0.15s ease-in-out;
+}
+
+/* ==================== HOVER EFFECTS ==================== */
+@keyframes lift {
+  from {
+    transform: translateY(0);
+    box-shadow: var(--shadow-md);
+  }
+  to {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.meeting-card:hover {
+  animation: none;
+}
+
+/* ==================== BUTTON EFFECTS ==================== */
+@keyframes btnPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.btn:active {
+  animation: btnPress 0.15s ease-out;
+}
+
+/* ==================== MODAL ANIMATIONS ==================== */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+  }
+}
+
+.modal:not(.hidden) .modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal:not(.hidden) .modal-content {
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==================== SECTION ANIMATIONS ==================== */
+.section {
+  animation: staggerIn 0.6s ease-out backwards;
+}
+
+.section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.section:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ==================== CARD ANIMATIONS ==================== */
+.meeting-card {
+  animation: staggerIn 0.5s ease-out backwards;
+}
+
+.live-container .meeting-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.live-container .meeting-card:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.upcoming-container .meeting-card:nth-child(1) {
+  animation-delay: 0.25s;
+}
+
+.upcoming-container .meeting-card:nth-child(2) {
+  animation-delay: 0.35s;
+}
+
+/* ==================== SKELETON/LOADING ANIMATIONS ==================== */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ==================== STATUS ANIMATIONS ==================== */
+@keyframes slide-in-label {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.meeting-status {
+  animation: slide-in-label 0.3s ease-out;
+}
+
+/* ==================== NOTIFICATION ANIMATIONS ==================== */
+@keyframes notification-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.toast:not(.hidden) {
+  animation: slideInRight 0.3s ease-out, notification-pop 0.3s ease-out;
+}
+
+/* ==================== DELETE ANIMATION ==================== */
+@keyframes slideOutAndFade {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+}
+
+.meeting-card.deleting {
+  animation: slideOutAndFade 0.3s ease-out forwards;
+}
+
+/* ==================== SPINNER ANIMATION ==================== */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border: 2px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ==================== RESPONSIVE ADJUSTMENTS ==================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+  .header,
+  .btn,
+  .meeting-actions {
+    display: none;
+  }
+}

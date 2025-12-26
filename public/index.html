@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Alerts - Real-time Meeting Notifications</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body data-theme="light">
+  <!-- Background Elements -->
+  <div class="background-grid"></div>
+  <div class="background-scanlines"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-title">
+          <h1 class="logo">⚡ Meeting Alerts</h1>
+          <span class="digital-clock" id="digital-clock">00:00:00</span>
+        </div>
+        <div class="header-controls">
+          <button id="sound-toggle" class="sound-toggle" title="Toggle sound alerts">
+            <span class="sound-icon">🔊</span>
+            <span class="status">On</span>
+          </button>
+          <button id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Live Now Section -->
+      <section class="section section-live">
+        <div class="section-header">
+          <h2>Live Now</h2>
+          <span class="section-count" id="live-count">0</span>
+        </div>
+        <div class="live-container" id="live-container">
+          <div class="empty-state">No meetings happening right now</div>
+        </div>
+      </section>
+
+      <!-- Upcoming Today Section -->
+      <section class="section section-upcoming">
+        <div class="section-header">
+          <h2>Today's Meetings</h2>
+          <span class="section-count" id="upcoming-count">0</span>
+        </div>
+        <div class="upcoming-container" id="upcoming-container">
+          <div class="empty-state">No upcoming meetings today</div>
+        </div>
+      </section>
+
+      <!-- All Meetings Section -->
+      <section class="section section-all">
+        <div class="section-header">
+          <h2>All Meetings</h2>
+          <button id="add-meeting-btn" class="btn btn-primary">+ Add Meeting</button>
+        </div>
+        <div class="all-container" id="all-container">
+          <div class="empty-state">No meetings yet. Create one to get started!</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for Add/Edit Meeting -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Add New Meeting</h2>
+        <button id="modal-close" class="modal-close">✕</button>
+      </div>
+      <form id="meeting-form" class="meeting-form">
+        <div class="form-group">
+          <label for="meeting-title">Meeting Title</label>
+          <input type="text" id="meeting-title" name="title" placeholder="e.g., Team Standup" required>
+        </div>
+
+        <div class="form-group">
+          <label for="meeting-link">Meeting Link</label>
+          <input type="url" id="meeting-link" name="link" placeholder="https://meet.google.com/..." required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="meeting-date">Date</label>
+            <input type="date" id="meeting-date" name="date" required>
+          </div>
+          <div class="form-group">
+            <label for="meeting-time">Time</label>
+            <input type="time" id="meeting-time" name="time" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="meeting-duration">Duration (minutes)</label>
+            <input type="number" id="meeting-duration" name="duration" min="1" max="480" value="60" required>
+          </div>
+          <div class="form-group">
+            <label for="alert-timing">Alert Timing</label>
+            <select id="alert-timing" name="alert_timing">
+              <option value="5">5 minutes before</option>
+              <option value="10">10 minutes before</option>
+              <option value="15">15 minutes before</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label>
+            <input type="checkbox" id="is-recurring" name="is_recurring">
+            <span>Recurring Meeting</span>
+          </label>
+        </div>
+
+        <div id="recurrence-options" class="recurrence-options hidden">
+          <div class="form-group">
+            <label for="recurrence-type">Recurrence Type</label>
+            <select id="recurrence-type" name="recurrence_type">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+
+          <div id="weekly-options" class="weekly-options hidden">
+            <label>Days of Week</label>
+            <div class="days-grid">
+              <label><input type="checkbox" name="day" value="0"> Sun</label>
+              <label><input type="checkbox" name="day" value="1"> Mon</label>
+              <label><input type="checkbox" name="day" value="2"> Tue</label>
+              <label><input type="checkbox" name="day" value="3"> Wed</label>
+              <label><input type="checkbox" name="day" value="4"> Thu</label>
+              <label><input type="checkbox" name="day" value="5"> Fri</label>
+              <label><input type="checkbox" name="day" value="6"> Sat</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="form-cancel" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Meeting</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-content">
+      <span class="toast-message" id="toast-message"></span>
+      <button class="toast-close" id="toast-close">✕</button>
+    </div>
+  </div>
+
+  <!-- Alert Sound -->
+  <audio id="alert-sound" preload="auto">
+    <source src="assets/sounds/alert.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/alerts.js"></script>
+  <script src="js/meetings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
